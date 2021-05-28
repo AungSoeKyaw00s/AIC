@@ -21,7 +21,7 @@ img = ImageTk.PhotoImage(resize_image)
 # create label and add resize image
 label3 = Label(image=img)
 label3.image = img
-  
+   
 def newWindow():
     app.destroy()
     import sample2
