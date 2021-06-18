@@ -1,4 +1,4 @@
-#imports
+ #imports
 from tkinter import *
 import cv2
 #from tkinter import messagebox
@@ -12,6 +12,28 @@ import torchvision
 import yaml
 import seaborn
 import os
+
+from io import StringIO
+import sys
+
+# Open Image Function using OpenCV
+def openImg(filename):
+    # Open the image using OPENCV
+    img = cv2.imread(filename)
+    return img
+
+def BttnScan_func():
+    # Use the File Dialog component to Open the Dialog box to select files
+    file = filedialog.askopenfilename(filetypes = (("Images files","*.jpg"),("Video Files","*.mp4"),("all files","*.*")))
+    # Passing the file to openImg method to show is using opencv (imread, imshow)
+    results = model(openImg(file))  # inference
+    results.print()
+    results.show()
+    
+
+def newWindow():
+    app.destroy()
+    import page3
 
 #run tkinter
 app = Tk()
@@ -38,26 +60,6 @@ labelbar.image = foto
 model = torch.hub.load('ultralytics/yolov5', 'custom', path='best.pt')
 model.eval()
 
-# Open Image Function using OpenCV
-def openImg(filename):
-    # Open the image using OPENCV
-    img = cv2.imread(filename)
-    return img
-
-def BttnScan_func():
-    # Use the File Dialog component to Open the Dialog box to select files
-    file = filedialog.askopenfilename(filetypes = (("Images files","*.jpg"),("Video Files","*.mp4"),("all files","*.*")))
-    # Passing the file to openImg method to show is using opencv (imread, imshow)
-    results = model(openImg(file))  # inference
-    ResultLabel.config(text = results.print())
-    results.show()
-    
-
-
-def newWindow():
-    app.destroy()
-    import page3
-
 ScanBttn = Button(text="Scan", command=BttnScan_func)
 ScanBttn.config(width=15)
 nextBtn = Button(text="Checkout", command=newWindow)
@@ -75,6 +77,5 @@ ScanBttn.grid(row=1, column=1, padx= 25)
 ResultLabel.grid(row=2,column=0, padx= 25,pady= 20)
 
 nextBtn.grid(row=3,column=1, padx= 25,pady= 20)
-
 
 app.mainloop()
